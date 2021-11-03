@@ -7,8 +7,8 @@ import { perPage } from '../config';
 import { useUser } from '../lib/userContext';
 
 export const ALL_PRODUCTS_FOR_SIGNIN_QUERY = gql`
-  query ALL_PRODUCTS_FOR_SIGNIN_QUERY($skip: Int = 0, $first: Int) {
-    allProducts(skip: $skip, first: $first) {
+  query ALL_PRODUCTS_FOR_SIGNIN_QUERY($skip: Int = 0, $take: Int) {
+    products(skip: $skip, take: $take) {
       id
       name
       price
@@ -27,8 +27,8 @@ export const ALL_PRODUCTS_FOR_SIGNIN_QUERY = gql`
 `;
 
 const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_FOR_SIGNIN_QUERY($skip: Int = 0, $first: Int) {
-    allProducts(skip: $skip, first: $first) {
+  query ALL_PRODUCTS_FOR_SIGNIN_QUERY($skip: Int = 0, $take: Int) {
+    products(skip: $skip, take: $take) {
       id
       name
       price
@@ -59,7 +59,7 @@ export default function Products({ page }) {
     {
       variables: {
         skip: page * perPage - perPage,
-        first: perPage,
+        take: perPage,
       },
     }
   );
@@ -70,7 +70,7 @@ export default function Products({ page }) {
   return (
     <div>
       <ProductsListStyles>
-        {data?.allProducts.map((product) => (
+        {data?.products.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </ProductsListStyles>

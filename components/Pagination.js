@@ -10,9 +10,7 @@ import { perPage } from '../config';
 
 export const PAGINTATION_QUERY = gql`
   query {
-    _allProductsMeta {
-      count
-    }
+    productsCount
   }
 `;
 
@@ -23,7 +21,7 @@ export default function Pagination({ page }) {
 
   if (error) return <DisplayError error={error} />;
 
-  const { count } = data._allProductsMeta;
+  const count = data.productsCount;
 
   const pageCount = Math.ceil(count / perPage);
 
