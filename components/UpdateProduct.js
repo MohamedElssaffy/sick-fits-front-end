@@ -9,7 +9,7 @@ import DisplayError from './ErrorMessage';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: ID!) {
-    Product(where: { id: $id }) {
+    product(where: { id: $id }) {
       id
       name
       price
@@ -26,7 +26,7 @@ const UPDATE_PRODUCT_MUTATION = gql`
     $description: String
   ) {
     updateProduct(
-      id: $id
+      where: { id: $id }
       data: { name: $name, price: $price, description: $description }
     ) {
       id
@@ -44,9 +44,9 @@ export default function UpdateProduct({ id }) {
 
   const { inputs, clearForm, handleChange } = useForm(
     {
-      name: data?.Product?.name,
-      price: data?.Product?.price,
-      description: data?.Product?.description,
+      name: data?.product?.name,
+      price: data?.product?.price,
+      description: data?.product?.description,
     },
     true
   );
@@ -75,41 +75,41 @@ export default function UpdateProduct({ id }) {
       <DisplayError error={updateRes.error || error} />
 
       <fieldset disabled={updateRes.loading} aria-busy={updateRes.loading}>
-        <label htmlFor="name">
+        <label htmlFor='name'>
           Product Name
           <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="ProductName"
+            type='text'
+            id='name'
+            name='name'
+            placeholder='ProductName'
             value={inputs.name || ''}
             onChange={handleChange}
           />
         </label>
-        <label htmlFor="price">
+        <label htmlFor='price'>
           Product Price
           <input
-            type="number"
-            id="price"
-            name="price"
-            placeholder="Productprice"
+            type='number'
+            id='price'
+            name='price'
+            placeholder='Productprice'
             value={inputs.price || 0}
             onChange={handleChange}
           />
         </label>
-        <label htmlFor="description">
+        <label htmlFor='description'>
           Product Description
           <textarea
-            type="text"
-            id="description"
-            name="description"
-            placeholder="Product Description"
+            type='text'
+            id='description'
+            name='description'
+            placeholder='Product Description'
             value={inputs.description || ''}
             onChange={handleChange}
           />
         </label>
 
-        <button type="submit">Save Chages</button>
+        <button type='submit'>Save Chages</button>
       </fieldset>
     </Form>
   );

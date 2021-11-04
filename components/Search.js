@@ -9,11 +9,11 @@ import { DropDown, SearchStyles, DropDownItem } from './styles/DropDown';
 
 const SEARCH_PRODUCTS_QUERY = gql`
   query SEARCH_PRODUCTS_QUERY($searchValue: String!) {
-    searchItem: allProducts(
+    searchItem: products(
       where: {
         OR: [
-          { name_contains_i: $searchValue }
-          { description_contains_i: $searchValue }
+          { name: { contains: $searchValue, mode: insensitive } }
+          { description: { contains: $searchValue, mode: insensitive } }
         ]
       }
     ) {
@@ -35,6 +35,8 @@ export default function Search() {
   });
 
   const items = data ? data.searchItem : [];
+
+  console.log({ items });
   const findItemButChill = debounce(findItem, 350);
 
   resetIdCounter();
@@ -52,7 +54,8 @@ export default function Search() {
     onInputValueChange() {
       findItemButChill({ variables: { searchValue: inputValue } });
     },
-    onSelectedItemChange({ selectedItem }) {
+    onSelectedItemChange({ selectedItem, inputValue: input }) {
+      input = '';
       router.push({
         pathname: `/product/${selectedItem.id}`,
       });
@@ -81,7 +84,7 @@ export default function Search() {
             >
               <img
                 src={item.photo.image.publicUrlTransformed}
-                width="50"
+                width='50'
                 alt={item.name}
               />
               {item.name}

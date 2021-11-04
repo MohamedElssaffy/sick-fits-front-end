@@ -7,7 +7,7 @@ import { useUser } from '../lib/userContext';
 
 const DELETE_CART_MUTATION = gql`
   mutation DELETE_CART_MUTATION($id: ID!) {
-    deleteCartItem(id: $id) {
+    deleteCartItem(where: { id: $id }) {
       id
     }
   }
@@ -36,9 +36,9 @@ function DeleteCart({ id }) {
 
   return (
     <BigBtnStyles
-      type="button"
+      type='button'
       disabled={disableButton}
-      title="Remove Item From This Cart"
+      title='Remove Item From This Cart'
       onClick={async () => {
         setDisableButton(true);
         await deleteCart();

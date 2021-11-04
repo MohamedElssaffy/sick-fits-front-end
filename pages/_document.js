@@ -5,8 +5,8 @@ import { ServerStyleSheet } from 'styled-components';
 export default class _document extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
-    const page = renderPage((App) => (props) =>
-      sheet.collectStyles(<App {...props} />)
+    const page = renderPage(
+      (App) => (props) => sheet.collectStyles(<App {...props} />)
     );
     const styleTags = sheet.getStyleElement();
 
@@ -15,7 +15,7 @@ export default class _document extends Document {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang='en'>
         <Head />
         <body>
           <Main />

@@ -9,7 +9,7 @@ import AddToCart from './AddToCart';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: ID!) {
-    Product(where: { id: $id }) {
+    product(where: { id: $id }) {
       id
       name
       price
@@ -54,20 +54,21 @@ export default function SingleProduct({ id }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <DisplayError error={error} />;
 
-  const { Product } = data;
+  const { product } = data;
+  if (!product) return <DisplayError error={{ message: 'No Product Found' }} />;
   return (
     <ProductStyles>
       <Head>
-        <title>Sick Fits | {Product.name}</title>
+        <title>Sick Fits | {product.name}</title>
       </Head>
       <img
-        src={Product.photo.image.publicUrlTransformed}
-        alt={Product.photo.altText}
+        src={product.photo.image.publicUrlTransformed}
+        alt={product.photo.altText}
       />
-      <div className="detials">
-        <h2>{Product.name}</h2>
-        <p>{Product.description}</p>
-        <AddToCart id={Product.id} />
+      <div className='detials'>
+        <h2>{product.name}</h2>
+        <p>{product.description}</p>
+        <AddToCart id={product.id} />
       </div>
     </ProductStyles>
   );

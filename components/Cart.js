@@ -1,13 +1,12 @@
-import { useContext } from 'react';
+import calcTotalCartPrice from '../lib/calcTotalCartPrice';
+import { useCart } from '../lib/cartState';
+import formatMony from '../lib/formatMony';
+import { useUser } from '../lib/userContext';
+import CartItem from './CartItem';
+import Checkout from './Checkout';
 import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
 import Supreme from './styles/Supreme';
-import CartItem from './CartItem';
-import calcTotalCartPrice from '../lib/calcTotalCartPrice';
-import formatMony from '../lib/formatMony';
-import { useCart } from '../lib/cartState';
-import Checkout from './Checkout';
-import { LocalUserStateContext, useUser } from '../lib/userContext';
 
 export default function Cart() {
   const { user: me } = useUser();
@@ -18,7 +17,7 @@ export default function Cart() {
     <CartStyles open={cartState}>
       <header>
         <Supreme>{me.name}</Supreme>
-        <CloseButton type="button" onClick={closeCart}>
+        <CloseButton type='button' onClick={closeCart}>
           &times;
         </CloseButton>
       </header>
