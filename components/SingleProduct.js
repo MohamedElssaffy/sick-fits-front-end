@@ -62,8 +62,8 @@ export default function SingleProduct({ id }) {
         <title>Sick Fits | {product.name}</title>
       </Head>
       <img
-        src={product.photo.image.publicUrlTransformed}
-        alt={product.photo.altText}
+        src={product.photo?.image?.publicUrlTransformed}
+        alt={product.photo?.altText}
       />
       <div className='detials'>
         <h2>{product.name}</h2>

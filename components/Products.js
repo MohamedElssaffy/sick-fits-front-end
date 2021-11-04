@@ -1,10 +1,10 @@
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
-import styled from 'styled-components';
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import Product from './Product';
+import styled from 'styled-components';
 import { perPage } from '../config';
 import { useUser } from '../lib/userContext';
+import Product from './Product';
 
 export const ALL_PRODUCTS_FOR_SIGNIN_QUERY = gql`
   query ALL_PRODUCTS_FOR_SIGNIN_QUERY($skip: Int = 0, $take: Int) {
@@ -63,9 +63,6 @@ export default function Products({ page }) {
       },
     }
   );
-
-  console.log({ data });
-  console.log({ error });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

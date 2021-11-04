@@ -4,6 +4,7 @@ import { resetIdCounter, useCombobox } from 'downshift';
 import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
+import { useEffect } from 'react';
 
 import { DropDown, SearchStyles, DropDownItem } from './styles/DropDown';
 
@@ -36,7 +37,6 @@ export default function Search() {
 
   const items = data ? data.searchItem : [];
 
-  console.log({ items });
   const findItemButChill = debounce(findItem, 350);
 
   resetIdCounter();
@@ -48,20 +48,25 @@ export default function Search() {
     getItemProps,
     getInputProps,
     isOpen,
+    setInputValue,
     highlightedIndex,
   } = useCombobox({
     items,
     onInputValueChange() {
       findItemButChill({ variables: { searchValue: inputValue } });
     },
-    onSelectedItemChange({ selectedItem, inputValue: input }) {
-      input = '';
+    onSelectedItemChange({ selectedItem }) {
       router.push({
         pathname: `/product/${selectedItem.id}`,
       });
+      setInputValue('');
     },
     itemToString: (item) => (item ? item.name : ''),
   });
+
+  useEffect(() => {
+    setInputValue('');
+  }, [setInputValue]);
   return (
     <SearchStyles>
       <div {...getComboboxProps()}>
@@ -83,7 +88,7 @@ export default function Search() {
               highlighted={index === highlightedIndex}
             >
               <img
-                src={item.photo.image.publicUrlTransformed}
+                src={item.photo?.image?.publicUrlTransformed}
                 width='50'
                 alt={item.name}
               />

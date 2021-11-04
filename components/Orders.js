@@ -10,7 +10,7 @@ import formatMony from '../lib/formatMony';
 
 const USER_ORDERS_QUERY = gql`
   query {
-    allOrders {
+    orders {
       id
       charge
       total
@@ -48,21 +48,21 @@ function SingleOrder() {
   if (loading) return <p>Loading...</p>;
   if (error) return <DisplayError error={error} />;
 
-  const { allOrders } = data;
+  const { orders } = data;
   return (
     <div>
       <Head>
-        <title>Your Orders ({allOrders.length})</title>
+        <title>Your Orders ({orders.length})</title>
       </Head>
       <OrderUl>
-        {allOrders.length === 0 ? (
+        {orders.length === 0 ? (
           <p>You dont make any order yet</p>
         ) : (
-          allOrders.map((order) => (
+          orders.map((order) => (
             <OrderItemStyles key={order.id}>
               <Link href={`/order/${order.id}`}>
                 <a>
-                  <div className="order-meta">
+                  <div className='order-meta'>
                     <p>
                       {countOrderItems(order)} Item
                       {countOrderItems(order) === 1 ? '' : 's'}
@@ -73,7 +73,7 @@ function SingleOrder() {
                     </p>
                     <p>{formatMony(order.total)}</p>
                   </div>
-                  <div className="images">
+                  <div className='images'>
                     {order.items.map((item) => (
                       <img
                         key={item.id}
