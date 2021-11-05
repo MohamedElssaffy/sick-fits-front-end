@@ -13,9 +13,11 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps, apollo }) {
+function MyApp({ Component, pageProps, cookie }) {
+  const headers = { cookie };
+  const apolloClient = createClient({ headers });
   return (
-    <ApolloProvider client={apollo}>
+    <ApolloProvider client={apolloClient}>
       <UserStateProvider>
         <CartStateProvider>
           <Page>
@@ -29,21 +31,19 @@ function MyApp({ Component, pageProps, apollo }) {
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {};
-  const apolloClient = createClient({ headers: ctx.req.headers });
-  const apollo = { ...ctx?.apolloClient, ...apolloClient };
-
+  const cookie = ctx.req?.headers?.cookie;
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
   pageProps.query = ctx.query;
 
-  return { pageProps, apollo };
+  return { pageProps, cookie };
 };
 
 MyApp.propTypes = {
   Component: PropTypes.elementType,
   pageProps: PropTypes.object,
-  apollo: PropTypes.object,
+  cookie: PropTypes.string,
 };
 
 export default withData(MyApp);
