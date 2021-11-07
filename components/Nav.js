@@ -11,7 +11,7 @@ export default function Nav() {
   return (
     <NavStyles>
       <Link href='/products'>Products</Link>
-      {user ? (
+      {user && user.id ? (
         <>
           <Link href='/orders'>Orders</Link>
 
