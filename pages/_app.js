@@ -7,17 +7,15 @@ import Page from '../components/Page';
 import '../components/styles/nprogress.css';
 import { CartStateProvider } from '../lib/cartState';
 import { UserStateProvider } from '../lib/userContext';
-import withData, { createClient } from '../lib/withData';
+import withData from '../lib/withData';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps, cookie }) {
-  const headers = { cookie };
-  const apolloClient = createClient({ headers });
+function MyApp({ Component, pageProps, apollo }) {
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={apollo}>
       <UserStateProvider>
         <CartStateProvider>
           <Page>
@@ -43,6 +41,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
 MyApp.propTypes = {
   Component: PropTypes.elementType,
   pageProps: PropTypes.object,
+  apollo: PropTypes.object,
   cookie: PropTypes.string,
 };
 
