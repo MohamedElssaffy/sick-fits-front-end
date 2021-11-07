@@ -55,7 +55,7 @@ const ProductsListStyles = styled.div`
 export default function Products({ page }) {
   const { user } = useUser();
   const { data, error, loading } = useQuery(
-    user ? ALL_PRODUCTS_FOR_SIGNIN_QUERY : ALL_PRODUCTS_QUERY,
+    user && user.id ? ALL_PRODUCTS_FOR_SIGNIN_QUERY : ALL_PRODUCTS_QUERY,
     {
       variables: {
         skip: page * perPage - perPage,
