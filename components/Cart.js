@@ -22,7 +22,7 @@ export default function Cart() {
         </CloseButton>
       </header>
       <ul>
-        {me.cart.map((cartItem) => (
+        {me.cart?.map((cartItem) => (
           <CartItem key={cartItem.id} cartItem={cartItem} />
         ))}
       </ul>
