@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ApolloProvider } from '@apollo/client';
 import Router from 'next/router';
-import { parseCookies } from 'nookies';
 import NProgress from 'nprogress';
 import PropTypes from 'prop-types';
 import Page from '../components/Page';
@@ -14,12 +13,12 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps, apollo, cookie }) {
+function MyApp({ Component, pageProps, apollo }) {
   return (
     <ApolloProvider client={apollo}>
       <UserStateProvider>
         <CartStateProvider>
-          <Page cookie={cookie}>
+          <Page>
             <Component {...pageProps} />
           </Page>
         </CartStateProvider>
@@ -30,20 +29,19 @@ function MyApp({ Component, pageProps, apollo, cookie }) {
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {};
-  const cookie = parseCookies(ctx);
+
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
   pageProps.query = ctx.query;
 
-  return { pageProps, cookie };
+  return { pageProps };
 };
 
 MyApp.propTypes = {
   Component: PropTypes.elementType,
   pageProps: PropTypes.object,
   apollo: PropTypes.object,
-  cookie: PropTypes.string,
 };
 
 export default withData(MyApp);

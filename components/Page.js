@@ -59,12 +59,12 @@ const InnerStyles = styled.div`
   padding: 2rem;
 `;
 
-export default function Page({ children, cookie }) {
+export default function Page({ children }) {
   const { getUser } = useUser();
 
   useEffect(() => {
-    getUser(cookie);
-  }, [getUser, cookie]);
+    getUser();
+  }, [getUser]);
 
   return (
     <div>
