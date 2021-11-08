@@ -15,7 +15,9 @@ export const PAGINTATION_QUERY = gql`
 `;
 
 export default function Pagination({ page }) {
-  const { data, error, loading } = useQuery(PAGINTATION_QUERY);
+  const { data, error, loading } = useQuery(PAGINTATION_QUERY, {
+    fetchPolicy: 'network-only',
+  });
 
   if (loading) return <p>Loading...</p>;
 
